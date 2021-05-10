@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hunau.springboot.mapper.HumitureMapper">
+    <resultMap id="HumitureResult" type="Humiture">
+        <result property="id" column="id"/>
+        <result property="temp" column="temp"/>
+        <result property="humidity" column="humidity"/>
+        <result property="ip" column="ip"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
+    <select id="listHumiture" resultMap="HumitureResult">
+        select * from tb_humiture
+    </select>
+
+    <insert id="insertData" parameterType="Humiture">
+        insert into tb_humiture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="temp != null  and temp != ''  ">temp,</if>
+            <if test="humidity != null  and humidity != ''  ">humidity,</if>
+            <if test="ip != null  and ip != ''  ">ip,</if>
+            <if test="time != null  and time != ''  ">time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="temp != null  and temp != ''  ">#{temp},</if>
+            <if test="humidity != null  and humidity != ''  ">#{humidity},</if>
+            <if test="ip != null  and ip != ''  ">#{ip},</if>
+            <if test="time != null  and time != ''  ">#{time},</if>
+        </trim>
+    </insert>
+</mapper>

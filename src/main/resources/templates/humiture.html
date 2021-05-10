@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>test</title>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body> <!--5.jpg-->
+
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="main" style="width: 600px;height:400px;position: absolute; top:50%; left: 50%; margin-top: -200px;margin-left: -300px"></div>
+<!--<div style="left:945px;top:819px ">-->
+<!--    <a href="/" rel="external nofollow" >-->
+<!--        <button type="button" class="btn btn-primary ">返回首页</button>-->
+<!--    </a>-->
+<!--</div>-->
+<!--<script th:inline="javascript">-->
+<!--    var data = [[${value}]];-->
+<!--    console.log(data);-->
+<!--</script>-->
+<script th:inline="javascript">
+    /**基于准备好的dom，初始化echarts实例*/
+    var myChart = echarts.init(document.getElementById('main'));
+    var data = [[${value}]];
+    console.log(data);
+    /**温度*/
+    var temperature = [];
+    /**湿度*/
+    var humidity = [];
+    /**采集时间*/
+    var coltime = [];
+    /**获取温度打包为数组*/
+    for (i in data)
+        temperature.push(data[i].temp);
+    console.log(temperature);
+    /**获取湿度打包为数组*/
+    for (i in data)
+        humidity.push(data[i].humidity);
+    console.log(humidity);
+    for (i in data)
+        coltime.push(data[i].time);
+    console.log(coltime);
+    /**指定图表的配置项和数据*/
+    option = {
+        title: {
+            text: '温湿度动态图'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['温度', '湿度']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: coltime
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: '温度',
+                type: 'line',
+                stack: '总量',
+                data: temperature
+            },
+            {
+                name: '湿度',
+                type: 'line',
+                stack: '总量',
+                data: humidity
+            }
+        ]
+    };
+
+    /**使用刚指定的配置项和数据显示图表*/
+    myChart.setOption(option);
+</script>
+</body>
+</html>
